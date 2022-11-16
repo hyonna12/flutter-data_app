@@ -1,7 +1,7 @@
 // VIEW -> Controller
 import 'package:data_app/domain/product/product.dart';
 import 'package:data_app/domain/product/product_http_repository.dart';
-import 'package:data_app/views/product/list/product_list_view_model.dart';
+import 'package:data_app/views/product/list/product_list_view_store.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final productController = Provider<ProductController>((ref) {
@@ -15,6 +15,12 @@ class ProductController {
 
   void findAll() {
     List<Product> productList = _ref.read(productHttpRepository).findAll();
-    _ref.read(productListViewModel.notifier).onRefresh(productList);
+    _ref.read(productListViewStore.notifier).onRefresh(productList);
   }
+
+  // void insert(Product productReqDto) {
+  //   Product productRespDto =
+  //       _ref.read(productHttpRepository).insert(productReqDto);
+  //   _ref.read(productListViewModel.notifier).addProduct(productList);
+  // }
 }
