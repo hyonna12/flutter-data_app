@@ -23,4 +23,8 @@ class ProductListViewStore extends StateNotifier<List<Product>> {
   }
   // vs가 가지고 있는 state 갱신
   // state는 최초에 new 될때 만들어짐
+
+  void removeProduct(int id) {
+    state = state.where((product) => product.id != id).toList();
+  }
 }

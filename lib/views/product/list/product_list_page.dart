@@ -26,7 +26,9 @@ class ProductListPage extends ConsumerWidget {
         itemCount: pm.length,
         itemBuilder: (context, index) => ListTile(
           key: ValueKey(pm[index].id),
-          onTap: () {},
+          onTap: () {
+            pc.deleteById(pm[index].id);
+          },
           leading: Icon(Icons.account_balance_wallet),
           title: Text(
             "${pm[index].name}",

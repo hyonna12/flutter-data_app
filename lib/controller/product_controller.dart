@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 final productController = Provider<ProductController>((ref) {
   return ProductController(ref);
 });
-//( 싱글톤으로 관리@Controller)
+// 싱글톤으로 관리(@Controller)
 
 class ProductController {
   final Ref _ref;
@@ -22,5 +22,12 @@ class ProductController {
     Product productRespDto =
         _ref.read(productHttpRepository).insert(productReqDto);
     _ref.read(productListViewStore.notifier).addProduct(productRespDto);
+  }
+
+  void deleteById(int id) {
+    int result = _ref.read(productHttpRepository).deleteById(id);
+    if (result == 1) {
+      _ref.read(productListViewStore.notifier).removeProduct(id);
+    }
   }
 }
