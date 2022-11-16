@@ -61,6 +61,10 @@ class ProductHttpRepository {
     // http 통신 코드
     list = list.where((product) => product.id != id).toList();
     // product.id 와 같지 않은 id만 리턴해줌
-    return 1;
+    if (id == 4) {
+      return -1;
+    } else {
+      return 1;
+    }
   }
 }
