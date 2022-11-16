@@ -31,6 +31,9 @@ class ProductListView extends ConsumerWidget {
           onTap: () {
             pc.deleteById(pm[index].id);
           },
+          onLongPress: () {
+            pc.updateById(pm[index].id, Product(0, "${pm[index].name}", 60000));
+          },
           leading: Icon(Icons.account_balance_wallet),
           title: Text(
             "${pm[index].name}",
