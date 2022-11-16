@@ -1,4 +1,10 @@
 import 'package:data_app/domain/product/product.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+final productHttpRepository = Provider<ProductHttpRepository>((ref) {
+  return ProductHttpRepository();
+});
+// 싱글톤으로 관리하려고(메모리에 띄워줌)
 
 // spring repository - db에 연결
 // flutter repository - spring controller에 연결/ spring server repository가 참조하는건 resource 서버

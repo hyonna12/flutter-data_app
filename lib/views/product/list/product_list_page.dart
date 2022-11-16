@@ -1,4 +1,5 @@
 import 'package:data_app/controller/product_controller.dart';
+import 'package:data_app/views/product/list/product_list_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -8,8 +9,9 @@ class ProductListPage extends ConsumerWidget {
   // view는 controller에 의존
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    //product list page 가 build 될때 vm을 watch하고 있음
+    final pm = ref.watch(productListViewModel);
     final pc = ref.read(productController);
-    pc.findAll();
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
@@ -23,10 +25,10 @@ class ProductListPage extends ConsumerWidget {
           onTap: () {},
           leading: Icon(Icons.account_balance_wallet),
           title: Text(
-            "바나나",
+            "${pm[index].name}",
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
-          subtitle: Text("1000"),
+          subtitle: Text("${pm[index].price}"),
         ),
       ),
     );
