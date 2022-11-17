@@ -21,10 +21,11 @@ class ProductController {
   final Ref _ref;
   ProductController(this._ref);
 
-  Future<void> findAll() async {
+  void findAll() async {
     List<Product> productList =
         await _ref.read(productHttpRepository).findAll();
     _ref.read(productListViewModel.notifier).refresh(productList);
+    // view model(view가 watch하고 있음)에 데이터 넣음
   }
 
   void insert(Product productReqDto) {

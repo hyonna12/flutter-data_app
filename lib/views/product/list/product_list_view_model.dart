@@ -8,15 +8,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 final productListViewModel =
     StateNotifierProvider<ProductListViewModel, List<Product>>((ref) {
   return ProductListViewModel([], ref)..initViewModel();
+  // cascade 연산자 - 객체 만들면서 바로 메서드 호출
 });
 
 class ProductListViewModel extends StateNotifier<List<Product>> {
-  Ref _ref;
+  Ref _ref; // 창고에 접근
   ProductListViewModel(super.state, this._ref);
 
   Future<void> initViewModel() async {
-    print("실행됨");
-    state = await _ref.read(productHttpRepository).findAll();
+    // viewModel을 초기화시키는 메서드
+    List<Product> products = await _ref.read(productHttpRepository).findAll();
+    state = products;
   }
 
   void refresh(List<Product> productsDto) {

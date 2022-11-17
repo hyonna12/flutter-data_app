@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:data_app/domain/product/product.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart';
 import '../http_connector.dart';
@@ -34,13 +35,12 @@ class ProductHttpRepository {
 
   Future<List<Product>> findAll() async {
     Response response = await _ref.read(httpConnector).get("/api/product");
-    if (response.statusCode == 200) {
-      List<dynamic> body = jsonDecode(response.body)["data"];
-      List<Product> productList = body.map((e) => Product.fromJson(e)).toList();
-      return productList;
-    } else {
-      return [];
-    }
+    // http connector에 get 요청하면 future를 리턴해주니까
+    // response가 바로 응답되지 않고 await니까 findAll에서도 future로
+    // 12:48
+    List<dynamic> dataList = jsonDecode(response.body)["data"];
+    return dataList.map((productMap) => Product.fromJson(productMap)).toList();
+    // 통신성공하면 데이터 리스트를 파싱
   }
 
   Product insert(Product product) {
