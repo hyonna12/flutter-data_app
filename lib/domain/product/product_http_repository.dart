@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:data_app/controller/product_controller.dart';
 import 'package:data_app/domain/product/product.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -39,15 +40,17 @@ class ProductHttpRepository {
     // response가 바로 응답되지 않고 await니까 findAll에서도 future로
     // 12:48
     List<dynamic> dataList = jsonDecode(response.body)["data"];
-    return dataList.map((productMap) => Product.fromJson(productMap)).toList();
+    return dataList.map((e) => Product.fromJson(e)).toList();
     // 통신성공하면 데이터 리스트를 파싱
   }
 
-  Product insert(Product product) {
+  Future<Product> insert(Product productReqDto) async {
     // http 통신 코드
     // 받은 값(product)을 기존 리스트에 추가
-    product.id = 4;
-
+    String body = jsonEncode(productReqDto.toJson());
+    Response response =
+        await _ref.read(httpConnector).post("/api/product", body);
+    Product product = Product.fromJson(jsonDecode(response.body)["data"]);
     return product;
   }
 

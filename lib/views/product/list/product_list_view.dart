@@ -1,6 +1,5 @@
 import 'package:data_app/controller/product_controller.dart';
 import 'package:data_app/domain/product/product.dart';
-import 'package:data_app/views/product/list/components/my_alert_dialog.dart';
 import 'package:data_app/views/product/list/product_list_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -21,12 +20,26 @@ class ProductListView extends ConsumerWidget {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
-          pc.findAll();
-          // pc.insert(Product(4, "호박", 2000));
+          // pc.findAll();
+          pc.insert(Product(id: 0, name: "호박", price: 6000));
         },
       ),
       appBar: AppBar(title: Text("product_list_page")),
-      body: ListView.builder(
+      body: _buildListView(pm),
+    );
+  }
+
+  Widget _buildListView(List<Product> pm) {
+    if (!(pm.length > 0)) {
+      // pm : product ViewModel이 관리하는 productList
+      return Center(
+          child: Image.asset(
+        "assets/image/loading.gif",
+        width: 400,
+        height: 400,
+      ));
+    } else {
+      return ListView.builder(
         itemCount: pm.length,
         itemBuilder: (context, index) => ListTile(
           key: ValueKey(pm[index].id),
@@ -34,7 +47,7 @@ class ProductListView extends ConsumerWidget {
             //pc.deleteById(pm[index].id);
           },
           onLongPress: () {
-            // pc.updateById();
+            //pc.updateById(pm[index].id, Product(id: 0, name: '호박', price: 6000));
           },
           leading: Icon(Icons.account_balance_wallet),
           title: Text(
@@ -43,7 +56,7 @@ class ProductListView extends ConsumerWidget {
           ),
           subtitle: Text("${pm[index].price}"),
         ),
-      ),
-    );
+      );
+    }
   }
 }

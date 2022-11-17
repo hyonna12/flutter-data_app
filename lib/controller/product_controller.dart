@@ -28,9 +28,9 @@ class ProductController {
     // view model(view가 watch하고 있음)에 데이터 넣음
   }
 
-  void insert(Product productReqDto) {
+  void insert(Product productReqDto) async {
     Product productRespDto =
-        _ref.read(productHttpRepository).insert(productReqDto);
+        await _ref.read(productHttpRepository).insert(productReqDto);
     _ref.read(productListViewModel.notifier).addProduct(productRespDto);
   }
 

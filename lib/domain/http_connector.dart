@@ -7,6 +7,9 @@ final httpConnector = Provider<HttpConnector>((ref) {
 
 class HttpConnector {
   final host = "http://localhost:5000";
+  Map<String, String> headers = {
+    "Content-Type": "application/json; charset=utf-8"
+  };
   final Client _client = Client();
 
   Future<Response> get(String path) async {
@@ -19,6 +22,12 @@ class HttpConnector {
   }
   // 스레드가 하나여서 통신하는 순간 다른 동작 멈춤
   // 메모리가 다운받는 동안(팬딩) cpu는 멈춰있어야함 - 멈추지 않으면 null을 리턴
+
+  Future<Response> post(String path, String body) async {
+    Uri uri = Uri.parse("${host}${path}");
+    Response response = await _client.post(uri, body: body, headers: headers);
+    return response;
+  }
 }
 // 메서드가 종료됐는데도 메서드의 지역변수는 계속 살아있음 - 클로저
 // 비동기 방식의 ??11:45 - 스레드 한개로 다중처리
