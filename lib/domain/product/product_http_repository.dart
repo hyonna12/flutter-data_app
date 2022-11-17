@@ -68,14 +68,10 @@ class ProductHttpRepository {
     return productDto;
   }
 
-  int deleteById(int id) {
+  Future<int> deleteById(int id) async {
     // http 통신 코드
-    final list = [].where((product) => product.id != id).toList();
-    // product.id 와 같지 않은 id만 리턴해줌
-    if (id == 4) {
-      return -1;
-    } else {
-      return 1;
-    }
+    Response response =
+        await _ref.read(httpConnector).get("/api/product/${id}");
+    return jsonDecode(response.body)["code"]; // 1이면 성공
   }
 }

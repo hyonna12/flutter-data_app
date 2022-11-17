@@ -25,11 +25,11 @@ class ProductListView extends ConsumerWidget {
         },
       ),
       appBar: AppBar(title: Text("product_list_page")),
-      body: _buildListView(pm),
+      body: _buildListView(pm, pc),
     );
   }
 
-  Widget _buildListView(List<Product> pm) {
+  Widget _buildListView(List<Product> pm, ProductController pc) {
     if (!(pm.length > 0)) {
       // pm : product ViewModel이 관리하는 productList
       return Center(
@@ -44,7 +44,7 @@ class ProductListView extends ConsumerWidget {
         itemBuilder: (context, index) => ListTile(
           key: ValueKey(pm[index].id),
           onTap: () {
-            //pc.deleteById(pm[index].id);
+            pc.deleteById(pm[index].id);
           },
           onLongPress: () {
             //pc.updateById(pm[index].id, Product(id: 0, name: '호박', price: 6000));

@@ -34,9 +34,9 @@ class ProductController {
     _ref.read(productListViewModel.notifier).addProduct(productRespDto);
   }
 
-  void deleteById(int id) {
-    int result = _ref.read(productHttpRepository).deleteById(id);
-    if (result == 1) {
+  void deleteById(int id) async {
+    int code = await _ref.read(productHttpRepository).deleteById(id);
+    if (code == 1) {
       _ref.read(productListViewModel.notifier).removeProduct(id);
     } else {
       showCupertinoDialog(
@@ -44,6 +44,16 @@ class ProductController {
         builder: (context) => MyAlertDialog(msg: "삭제실패"),
       );
     }
+
+    // int result = _ref.read(productHttpRepository).deleteById(id);
+    // if (result == 1) {
+    //   _ref.read(productListViewModel.notifier).removeProduct(id);
+    // } else {
+    //   showCupertinoDialog(
+    //     context: context,
+    //     builder: (context) => MyAlertDialog(msg: "삭제실패"),
+    //   );
+    // }
     // 1일 때는 상태를 변경해주고 -1일 때는 alert 창 띄워줌
   }
 

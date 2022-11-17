@@ -23,6 +23,18 @@ class HttpConnector {
   // 스레드가 하나여서 통신하는 순간 다른 동작 멈춤
   // 메모리가 다운받는 동안(팬딩) cpu는 멈춰있어야함 - 멈추지 않으면 null을 리턴
 
+  Future<Response> delete(String path) async {
+    Uri uri = Uri.parse("${host}${path}");
+    Response response = await _client.delete(uri);
+    return response;
+  }
+
+  Future<Response> put(String path, String body) async {
+    Uri uri = Uri.parse("${host}${path}");
+    Response response = await _client.put(uri, body: body, headers: headers);
+    return response;
+  }
+
   Future<Response> post(String path, String body) async {
     Uri uri = Uri.parse("${host}${path}");
     Response response = await _client.post(uri, body: body, headers: headers);
