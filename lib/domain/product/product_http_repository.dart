@@ -10,8 +10,6 @@ final productHttpRepository = Provider<ProductHttpRepository>((ref) {
 });
 // 싱글톤으로 관리하려고(메모리에 띄워줌)
 
-List<Product> list = [];
-
 // spring repository - db에 연결
 // flutter repository - spring controller에 연결/ spring server repository가 참조하는건 resource 서버
 // 자기 db가 아니라 외부 서버에 연결하는거(외부에 통신하는 repository) - http/ 내부저장소는 local repository
@@ -36,9 +34,13 @@ class ProductHttpRepository {
 
   Future<List<Product>> findAll() async {
     Response response = await _ref.read(httpConnector).get("/api/product");
-    List<dynamic> body = jsonDecode(response.body)["data"];
-    List<Product> productList = body.map((e) => Product.fromJson(e)).toList();
-    return productList;
+    if (response.statusCode == 200) {
+      List<dynamic> body = jsonDecode(response.body)["data"];
+      List<Product> productList = body.map((e) => Product.fromJson(e)).toList();
+      return productList;
+    } else {
+      return [];
+    }
   }
 
   Product insert(Product product) {
@@ -51,7 +53,7 @@ class ProductHttpRepository {
 
   Product updateById(int id, Product productDto) {
     // http 통신 코드
-    list = list.map((product) {
+    final list = [].map((product) {
       if (product.id == id) {
         product = productDto;
         return product;
@@ -65,7 +67,7 @@ class ProductHttpRepository {
 
   int deleteById(int id) {
     // http 통신 코드
-    list = list.where((product) => product.id != id).toList();
+    final list = [].where((product) => product.id != id).toList();
     // product.id 와 같지 않은 id만 리턴해줌
     if (id == 4) {
       return -1;
