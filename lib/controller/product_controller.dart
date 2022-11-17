@@ -57,9 +57,9 @@ class ProductController {
     // 1일 때는 상태를 변경해주고 -1일 때는 alert 창 띄워줌
   }
 
-  void updateById(int id, Product productReqDto) {
+  void updateById(int id, Product productReqDto) async {
     Product productRespDto =
-        _ref.read(productHttpRepository).updateById(id, productReqDto);
+        await _ref.read(productHttpRepository).updateById(id, productReqDto);
     _ref.read(productListViewModel.notifier).updateProduct(productRespDto);
   }
 }
